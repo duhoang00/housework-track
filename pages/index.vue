@@ -8,31 +8,34 @@
             v-text="event.textTime"
           ></div>
         </template>
-        <div>
-          <h2 class="mt-n1 headline font-weight-light mb-4">
+        <v-card>
+          <v-card-title :class="['text-h6', `bg-${event.color}`]">
             {{ event.text }}
-          </h2>
-        </div>
-      </v-timeline-item>
-      <v-timeline-item
-        fill-dot
-        class="white--text mb-12"
-        dot-color="orange"
-        size="large"
-      >
-        <v-text-field
-          v-model="input"
-          hide-details
-          label="Leave a comment..."
-          density="compact"
-          @keydown.enter="comment"
-        >
-          <template v-slot:append>
-            <v-btn class="mx-0" variant="text" @click="comment"> Post </v-btn>
-          </template>
-        </v-text-field>
+          </v-card-title>
+          <v-card-text class="white text--primary">
+            <p>
+              Lorem ipsum dolor sit amet, no nam oblique veritus. Commune
+              scaevola imperdiet nec ut, sed euismod convenire principes at. Est
+              et nobis iisque percipit, an vim zril disputando voluptatibus, vix
+              an salutandi sententiae.
+            </p>
+            <v-btn :color="event.color" variant="outlined"> Button </v-btn>
+          </v-card-text>
+        </v-card>
       </v-timeline-item>
     </v-timeline>
+
+    <v-card-actions class="pa-5">
+      <v-text-field
+        v-model="input"
+        hide-details
+        label="Add an event"
+        variant="solo"
+        @keydown.enter="addEvent"
+      >
+      </v-text-field>
+      <v-btn variant="text" @click="addEvent" class="ml-1"> Add </v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 
@@ -46,17 +49,19 @@ export default {
         text: "Giat do",
         time: new Date(),
         textTime: new Date().toDateString(),
+        color: "green-lighten-1",
       },
     ],
   }),
   methods: {
-    comment() {
+    addEvent() {
       const time = new Date();
       this.events.push({
         id: this.nonce++,
         text: this.input,
         time,
-        textTime: "Monday",
+        textTime: time.toDateString(),
+        color: "red-lighten-2",
       });
 
       this.input = null;
