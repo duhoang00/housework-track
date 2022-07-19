@@ -1,4 +1,4 @@
-# House work tracking application
+# Housework tracking application
 
 - To add thing like "Do the laundry" or "Change the drap" each time you do that
 - To remember if today is the day you should do the laundry or change your drap
