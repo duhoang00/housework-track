@@ -1,42 +1,20 @@
-# Nuxt 3 Minimal Starter
+# House work tracking application
 
-Look at the [nuxt 3 documentation](https://v3.nuxtjs.org) to learn more.
+- To add thing like "Do the laundry" or "Change the drap" each time you do that
+- To remember if today is the day you should do the laundry or change your drap
 
-## Setup
+## Tech
 
-Make sure to install the dependencies:
+- Nuxt3
+- Vuetify3
 
-```bash
-# yarn
-yarn install
+## Development build
 
-# npm
-npm install
+- OS: Windows 11 & WSL 2 & Ubuntu 20.04
 
-# pnpm
-pnpm install --shamefully-hoist
-```
+## How to start
 
-## Development Server
+Run these commands:
 
-Start the development server on http://localhost:3000
-
-```bash
-npm run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-npm run build
-```
-
-Locally preview production build:
-
-```bash
-npm run preview
-```
-
-Checkout the [deployment documentation](https://v3.nuxtjs.org/guide/deploy/presets) for more information.
+1. `npm install`
+2. `npm run dev`
