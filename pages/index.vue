@@ -11,20 +11,37 @@
           <template v-slot:opposite>
             <span>TODAY</span>
           </template>
-          <v-text-field
-            v-model="input"
-            hide-details
-            label="Add an event..."
-            density="compact"
-            variant="outlined"
-            @keydown.enter="addEvent"
-          >
-            <template v-slot:append>
-              <v-btn class="mx-0" variant="text" @click="addEvent">
-                Post
-              </v-btn>
-            </template>
-          </v-text-field>
+
+          <v-menu offset-y transition="scale-transition">
+            <template v-slot:activator="{ props }"
+              ><v-text-field
+                v-bind="props"
+                v-model="input"
+                hide-details
+                label="Add an event..."
+                density="compact"
+                variant="outlined"
+                @keydown.enter="addEvent"
+              >
+                <template v-slot:append>
+                  <v-btn class="mx-0" variant="text" @click="addEvent">
+                    Post
+                  </v-btn>
+                </template>
+              </v-text-field></template
+            >
+            <v-list>
+              <v-list-item
+                v-for="(event, i) in defaultEvents"
+                :key="i"
+                @click="addEvent(event)"
+              >
+                <v-chip :color="event.color" label
+                  ><v-icon start icon="mdi-label"></v-icon>{{ event.title }}
+                </v-chip>
+              </v-list-item>
+            </v-list>
+          </v-menu>
         </v-timeline-item>
 
         <v-slide-x-transition group>
@@ -32,7 +49,7 @@
             v-for="event in timeline"
             :key="event.id"
             class="mb-4"
-            dot-color="pink"
+            :dot-color="event.color"
             size="small"
           >
             <template v-slot:opposite>
@@ -59,6 +76,19 @@
         >Reset</v-btn
       >
     </v-card>
+
+    <v-snackbar v-model="showNoTitleSnackBar" color="red-darken-2">
+      Event title is empty
+      <template v-slot:actions>
+        <v-btn
+          color="white"
+          variant="text"
+          @click="showNoTitleSnackBar = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
@@ -74,24 +104,64 @@ export default {
     currentDate: new Date(),
     currentDateString: new Date().toDateString(),
     events: [],
+    showNoTitleSnackBar: false,
+    defaultEvents: [
+      {
+        id: null,
+        title: "Giặt đồ",
+        detail: null,
+        time: null,
+        textTime: null,
+        color: "#1565C0",
+      },
+      {
+        id: null,
+        title: "Phơi đồ",
+        detail: null,
+        time: null,
+        textTime: null,
+        color: "#FF6D00",
+      },
+      {
+        id: null,
+        title: "Xếp đồ",
+        detail: null,
+        time: null,
+        textTime: null,
+        color: "#3E2723",
+      },
+      {
+        id: null,
+        title: "Thay drap",
+        detail: null,
+        time: null,
+        textTime: null,
+        color: "#64DD17",
+      },
+    ],
   }),
   mounted() {
     this.fetchFromLocalStorage();
   },
   methods: {
-    addEvent() {
+    addEvent(event) {
       const date = new Date();
       const time = date.toTimeString();
       const shortTime = time.substring(0, 5);
-      this.events.push({
+      const newEvent = {
         id: this.nonce++,
-        title: this.input,
+        title: event.title ? event.title : this.input,
         detail: "",
         time,
         textTime: shortTime,
-        color: "red-lighten-2",
-      });
-
+        color: event ? event.color : "#BBDEFB",
+      };
+      console.log(newEvent);
+      if (newEvent.title) {
+        this.events.push(newEvent);
+      } else {
+        this.showNoTitleSnackBar = true;
+      }
       this.input = null;
       this.saveToLocalStorage();
     },
