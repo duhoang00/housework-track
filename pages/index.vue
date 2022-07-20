@@ -156,7 +156,6 @@ export default {
         textTime: shortTime,
         color: event ? event.color : "#BBDEFB",
       };
-      console.log(newEvent);
       if (newEvent.title) {
         this.events.push(newEvent);
       } else {
