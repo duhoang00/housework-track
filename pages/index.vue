@@ -35,17 +35,29 @@
             dot-color="pink"
             size="small"
           >
-            <div class="d-flex justify-space-between flex-grow-1">
-              <div>{{ event.title }}</div>
-              <div class="flex-shrink-0">{{ event.textTime }}</div>
-            </div>
+            <template v-slot:opposite>
+              <div>{{ event.textTime }}</div>
+            </template>
+            <div>{{ event.title }}</div>
           </v-timeline-item>
         </v-slide-x-transition>
 
         <v-timeline-item class="mb-6" hide-dot>
-          <span>YESTERDAY</span>
+          <template v-slot:opposite>
+            <span>YESTERDAY</span>
+          </template>
         </v-timeline-item>
       </v-timeline>
+    </v-card>
+
+    <v-card class="mt-5 d-flex justify-end">
+      <v-btn
+        class="flex-shrink-1 ma-2"
+        flat
+        color="error"
+        @click="resetInLocalStorage"
+        >Reset</v-btn
+      >
     </v-card>
   </div>
 </template>
@@ -54,7 +66,7 @@
 export default {
   computed: {
     timeline() {
-      return this.events.slice().reverse();
+      return this.events?.slice().reverse();
     },
   },
   data: () => ({
@@ -63,6 +75,9 @@ export default {
     currentDateString: new Date().toDateString(),
     events: [],
   }),
+  mounted() {
+    this.fetchFromLocalStorage();
+  },
   methods: {
     addEvent() {
       const date = new Date();
@@ -78,6 +93,18 @@ export default {
       });
 
       this.input = null;
+      this.saveToLocalStorage();
+    },
+    fetchFromLocalStorage() {
+      this.events =
+        JSON.parse(localStorage.getItem("houseworkTrackEvents")) || [];
+    },
+    saveToLocalStorage() {
+      localStorage.setItem("houseworkTrackEvents", JSON.stringify(this.events));
+    },
+    resetInLocalStorage() {
+      localStorage.removeItem("houseworkTrackEvents");
+      this.events = [];
     },
   },
 };
