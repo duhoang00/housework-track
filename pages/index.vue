@@ -50,12 +50,17 @@
 </template>
 
 <script>
+import ActionItem from "@/components/ActionItem.vue";
+import ActionResultSnackBar from "@/components/ActionResultSnackBar.vue";
+import ActionsCard from "@/components/ActionsCard.vue";
+import ActionsMenu from "@/components/ActionsMenu.vue";
+
 export default {
   components: {
-    ActionsCard: () => import("#components/ActionsCard"),
-    ActionResultSnackBar: () => import("#components/ActionResultSnackBar"),
-    ActionsMenu: () => import("#components/ActionsMenu"),
-    ActionItem: () => import("#components/ActionItem"),
+    ActionItem,
+    ActionResultSnackBar,
+    ActionsCard,
+    ActionsMenu,
   },
   computed: {
     timeline() {
